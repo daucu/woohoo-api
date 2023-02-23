@@ -43,9 +43,7 @@ router.get("/", async (req, res) => {
 
             return res.json(newProd)
         }).catch(e => {
-            return res.json({
-                message: e.response.data
-            })
+            return res.json(e.response.data);
         })
     } catch (e) {
         return res.json({
