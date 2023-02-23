@@ -8,17 +8,19 @@ const Product = require('../models/product_schema');
 router.get("/", async (req, res) => {
     const { offset, limit } = req.query;
 
-    const allProds = await Product.find({ 
-        updatedAt: { $gt: moment().subtract(28, 'days').toISOString() } ,
-        category_id: req.query.categoryId
-    });
-    
-    if (allProds.length > 0) {
-        return res.json({
-            data: allProds
-        })
+    if ((offset != undefined && offset != null && offset != "") && (limit != undefined && limit != null && limit != "")) {
+        const allProds = await Product.find({
+            updatedAt: { $gt: moment().subtract(28, 'days').toISOString() },
+            category_id: req.query.categoryId
+        });
+
+        if (allProds.length > 0) {
+            return res.json({
+                data: allProds
+            })
+        }
     }
-    
+
     const { categoryId } = req.query;
     let url = `https://sandbox.woohoo.in/rest/v3/catalog/categories/${categoryId}/products`;
     if (offset != undefined && offset != null && offset != "") {
@@ -27,7 +29,7 @@ router.get("/", async (req, res) => {
     if (limit != undefined && limit != null && limit != "") {
         url = url + `&limit=${limit}`;
     }
-    
+
     let token = await getToken();
     const signature = getSignatures("GET", url);
 
