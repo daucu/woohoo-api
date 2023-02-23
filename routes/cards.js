@@ -10,37 +10,35 @@ router.get("/order/:orderId", async (req, res) => {
     const { offset, limit } = req.query;
     try {
         const url = `https://sandbox.woohoo.in/rest/v3/order/${orderId}/cards/`;
-        if(offset != undefined && offset != null && offset != "") {
+        if (offset != undefined && offset != null && offset != "") {
             url = url + `?offset=${offset}`;
         }
-        if(limit != undefined && limit != null && limit != "") {
+        if (limit != undefined && limit != null && limit != "") {
             url = url + `&limit=${limit}`;
         }
         const token = await getToken();
         const signature = getSignatures("GET", url);
-    
+
         axios.get(url, {
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "*/*",
-            "Authorization": `Bearer ${token}`,
-            "dateAtClient": moment().toISOString(),
-            "signature": signature
-          }
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": `Bearer ${token}`,
+                "dateAtClient": moment().toISOString(),
+                "signature": signature
+            }
         }).then((data) => {
-          if (data) {
-            return res.json(data.data)
-          }
+            if (data) {
+                return res.json(data.data)
+            }
         }).catch((err) => {
-          return res.json({
-            message: err.message
-          })
+            return res.json(err.response.data)
         })
-    
-      } catch (err) {
+
+    } catch (err) {
         return res
-          .status(500)
-          .send({ message: err.message });
-      }
+            .status(500)
+            .send({ message: err.message });
+    }
 });
 module.exports = router;
