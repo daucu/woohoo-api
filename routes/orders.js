@@ -21,9 +21,7 @@ router.post("/", async (req, res) => {
     })
       .then((data) => {
         if (data) {
-          return res.json({
-            data: data.data
-          })
+          return res.json(data.data)
         }
       })
       .catch((err) => {
