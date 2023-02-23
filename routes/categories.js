@@ -83,6 +83,8 @@ router.get("/:categoryId", async (req, res) => {
             );
 
             return res.json(newCat)
+        }).catch((err) => {
+            return res.json(err.response.data)
         })
     } catch (e) {
         return res.json({
