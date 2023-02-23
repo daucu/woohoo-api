@@ -52,7 +52,7 @@ router.get("/:categoryId", async (req, res) => {
         }
     });
 
-    if (allCats.length > 0) {
+    if (allCats) {
         return res.json(allCats)
     }
 
