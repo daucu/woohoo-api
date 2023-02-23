@@ -9,7 +9,7 @@ router.get("/order/:orderId", async (req, res) => {
     const { orderId } = req.params;
     const { offset, limit } = req.query;
     try {
-        const url = `https://sandbox.woohoo.in/rest/v3/order/${orderId}/cards/`;
+        let url = `https://sandbox.woohoo.in/rest/v3/order/${orderId}/cards/`;
         if (offset != undefined && offset != null && offset != "") {
             url = url + `?offset=${offset}`;
         }

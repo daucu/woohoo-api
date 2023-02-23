@@ -6,6 +6,8 @@ const { default: axios } = require('axios');
 const Product = require('../models/product_schema');
 
 router.get("/", async (req, res) => {
+    const { offset, limit } = req.query;
+
     const allProds = await Product.find({ 
         updatedAt: { $gt: moment().subtract(28, 'days').toISOString() } ,
         category_id: req.query.categoryId
@@ -19,6 +21,13 @@ router.get("/", async (req, res) => {
     
     const { categoryId } = req.query;
     let url = `https://sandbox.woohoo.in/rest/v3/catalog/categories/${categoryId}/products`;
+    if (offset != undefined && offset != null && offset != "") {
+        url = url + `?offset=${offset}`;
+    }
+    if (limit != undefined && limit != null && limit != "") {
+        url = url + `&limit=${limit}`;
+    }
+    
     let token = await getToken();
     const signature = getSignatures("GET", url);
 
