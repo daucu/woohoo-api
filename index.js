@@ -22,5 +22,7 @@ app.use("/orders", require("./routes/orders"));
 app.use("/categories", require("./routes/categories"));
 //products
 app.use("/products", require("./routes/products"));
+//activated cards
+app.use("/cards", require("./routes/cards"));
 
 app.listen(port, () => console.log(`Orders cg, Quick api listening on port ${port}!`));
