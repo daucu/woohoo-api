@@ -19,7 +19,7 @@ router.get("/:id", (req, res) => {
     .post("https://sandbox.woohoo.in/oauth2/token", data)
     .then((response) => {
       if (response.status === 200) {
-        console.log(response.data);
+        console.log(response);
         res.send(response.data);
       } else {
         console.error(response.data);
